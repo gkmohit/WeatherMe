@@ -1,6 +1,7 @@
 package com.gkmohit.unknown.weatherme;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,33 +35,38 @@ public class MainActivity extends Activity {
         String forecastUrl = "https://api.forecast.io/forecast/" + apiKey +  "/" + latitude + "," + longitude;
         Log.v(TAG, "forecastUrl = " + forecastUrl);
         OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder().url(forecastUrl).build();
+            Request request = new Request.Builder()
+                    .url(forecastUrl)
+                    .build();
 
-        Call call = client.newCall(request);
-        Log.v(TAG, "about to call call.enque");
-        textView.setText("TEST");
-        call.enqueue(new Callback() {
+            Call call = client.newCall(request);
+        Log.v(TAG, "TEST");
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Request request, IOException e) {
+                    Log.v(TAG, e.getMessage());
+                }
 
-            @Override
-            public void onFailure(Request request, IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(Response response) throws IOException {
-                Log.v(TAG, "in onResponse");
-//                try {
-
-//                    if(response.isSuccessful()) {
+                @Override
+                public void onResponse(Response response) throws IOException {
+                    try {
                         Log.v(TAG, response.body().string());
-//                        textView.setText(response.body().string());
-//
-//                    }
-//                } catch (IOException e) {
-//                    Log.e(TAG, "Exception caught : " + e);
-//                }
-            }
-        });
+                        if( response.isSuccessful()) {
 
+                        } else{
+                            alertUserAboutError();
+                        }
+
+                    } catch (IOException e) {
+                        Log.e(TAG, "Exception caught: ", e);
+                    }
+                }
+            });
+
+    }
+
+    private void alertUserAboutError() {
+        AlertDialogFragment dialog = new AlertDialogFragment();
+        dialog.show(getFragmentManager(), "error_dialog");
     }
 }
