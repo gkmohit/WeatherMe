@@ -2,12 +2,16 @@ package com.gkmohit.unknown.weatherme;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
@@ -34,13 +38,14 @@ public class MainActivity extends Activity {
         double longitude = -122.423;
         String forecastUrl = "https://api.forecast.io/forecast/" + apiKey +  "/" + latitude + "," + longitude;
         Log.v(TAG, "forecastUrl = " + forecastUrl);
-        OkHttpClient client = new OkHttpClient();
+        if( isNetworkAvailable()) {
+            OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()
                     .url(forecastUrl)
                     .build();
 
             Call call = client.newCall(request);
-        Log.v(TAG, "TEST");
+            Log.v(TAG, "TEST");
             call.enqueue(new Callback() {
                 @Override
                 public void onFailure(Request request, IOException e) {
@@ -51,9 +56,9 @@ public class MainActivity extends Activity {
                 public void onResponse(Response response) throws IOException {
                     try {
                         Log.v(TAG, response.body().string());
-                        if( response.isSuccessful()) {
+                        if (response.isSuccessful()) {
 
-                        } else{
+                        } else {
                             alertUserAboutError();
                         }
 
@@ -62,6 +67,22 @@ public class MainActivity extends Activity {
                     }
                 }
             });
+        }
+        else{
+            Toast.makeText(this, R.string.network_unavailable, Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    private boolean isNetworkAvailable() {
+
+        boolean isAvailable = false;
+        ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+        if( networkInfo != null && networkInfo.isConnected() ){
+            isAvailable = true;
+        }
+        return isAvailable;
 
     }
 
