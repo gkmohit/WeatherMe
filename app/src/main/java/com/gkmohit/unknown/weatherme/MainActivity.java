@@ -19,12 +19,15 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.io.IOException;
 
 public class MainActivity extends Activity {
 
+    private CurrentWeather mCurrentWeather;
     public static final String TAG = MainActivity.class.getName();
     public TextView textView;
     @Override
@@ -45,7 +48,6 @@ public class MainActivity extends Activity {
                     .build();
 
             Call call = client.newCall(request);
-            Log.v(TAG, "TEST");
             call.enqueue(new Callback() {
                 @Override
                 public void onFailure(Request request, IOException e) {
@@ -55,14 +57,19 @@ public class MainActivity extends Activity {
                 @Override
                 public void onResponse(Response response) throws IOException {
                     try {
-                        Log.v(TAG, response.body().string());
+                        String jsonData = response.body().string();
+                        Log.v(TAG, jsonData);
                         if (response.isSuccessful()) {
-
+                            mCurrentWeather = getCurrentDetails(jsonData);
                         } else {
                             alertUserAboutError();
                         }
 
-                    } catch (IOException e) {
+                    }
+                    catch (IOException e) {
+                        Log.e(TAG, "Exception caught: ", e);
+                    }
+                    catch (JSONException e){
                         Log.e(TAG, "Exception caught: ", e);
                     }
                 }
@@ -74,6 +81,8 @@ public class MainActivity extends Activity {
 
     }
 
+    
+
     private boolean isNetworkAvailable() {
 
         boolean isAvailable = false;
@@ -84,6 +93,25 @@ public class MainActivity extends Activity {
         }
         return isAvailable;
 
+    }
+
+    private CurrentWeather getCurrentDetails(String jsonData) throws JSONException {
+        JSONObject forecast = new JSONObject(jsonData);
+        String timeZone = forecast.getString("timezone");
+        Log.i(TAG, "From JSON: " + timeZone);
+        JSONObject currently = forecast.getJSONObject("currently");
+
+        CurrentWeather currentWeather = new CurrentWeather();
+        currentWeather.setTime(currently.getLong("time"));
+        currentWeather.setIcon(currently.getString("icon"));
+        currentWeather.setSummary(currently.getString("summary"));
+        currentWeather.setTimeZone(timeZone);
+        currentWeather.setHumidity(currently.getDouble("humidity"));
+        currentWeather.setTemperature(currently.getDouble("temperature"));
+        currentWeather.setPrecipChance(currently.getInt("precipProbability"));
+
+        Log.d(TAG, "Formatted time : " + currentWeather.getFormattedTime());
+        return currentWeather;
     }
 
     private void alertUserAboutError() {
