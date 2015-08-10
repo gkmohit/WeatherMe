@@ -34,11 +34,14 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        textView = (TextView) findViewById(R.id.textView);
 
         String apiKey = "58d83f3c25abb4da7c73286532f3264c";
-        double latitude = 37.8267;
-        double longitude = -122.423;
+//        LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+//        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+//        double longitude = location.getLongitude();
+//        double latitude = location.getLatitude();
+        double latitude = 43.768;
+        double longitude = -79.345;
         String forecastUrl = "https://api.forecast.io/forecast/" + apiKey +  "/" + latitude + "," + longitude;
         Log.v(TAG, "forecastUrl = " + forecastUrl);
         if( isNetworkAvailable()) {
