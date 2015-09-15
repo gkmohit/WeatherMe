@@ -44,10 +44,90 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Toronto, Canada"
-        android:id="@+id/locationLable"
+        android:id="@+id/locationLabel"
         android:layout_above="@+id/timeLabel"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="60dp"
         android:textColor="@android:color/white"
         android:textSize="24sp"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/iconImageView"
+        android:layout_alignBottom="@+id/locationLabel"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/cloudy_night"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tempratureLabel"
+        android:layout_alignRight="@+id/tempratureLabel"
+        android:layout_alignEnd="@+id/tempratureLabel"
+        android:layout_marginTop="10dp"
+        android:id="@+id/linearLayout">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="HUMIDITY"
+                android:id="@+id/humidityLabel"
+                android:textColor="#ffffff"
+                android:gravity="center_horizontal"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0.88"
+                android:id="@+id/humidityValue"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                android:gravity="center_horizontal"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="RAIN/SNOW?"
+                android:id="@+id/precipLabel"
+                android:textColor="#80ffffff"
+                android:gravity="center_horizontal"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="100%"
+                android:id="@+id/precpValue"
+                android:textSize="24sp"
+                android:textColor="@android:color/white"
+                android:gravity="center_horizontal"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Weather Me by \nAppilization Developers"
+        android:id="@+id/textView"
+        android:textColor="@android:color/white"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="45dp"
+        android:textSize="18sp"
+        android:gravity="center_horizontal"/>
 </RelativeLayout>
