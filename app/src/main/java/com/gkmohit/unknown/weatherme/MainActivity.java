@@ -123,7 +123,7 @@ public class MainActivity extends Activity  {
     /**
      * Gets a new forecast when called.
      *
-     * TODO : Pass the queries if needed to change the forecastURL.
+     * TODO : Pass the queries if needed to change the forecastURL. Example change units
      * @param latitude
      * @param longitude
      */
