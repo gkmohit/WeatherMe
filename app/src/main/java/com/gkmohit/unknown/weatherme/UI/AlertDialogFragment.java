@@ -1,10 +1,12 @@
-package com.gkmohit.unknown.weatherme;
+package com.gkmohit.unknown.weatherme.UI;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;
+
+import com.gkmohit.unknown.weatherme.R;
 
 /**
  * Created by gkmohit on 15-08-06.
